@@ -82,11 +82,10 @@ int main(int argc, char **argv)
     return 1;
   }
 
-  int product = 1;
+  int64_t product = 1;
 
   for (int const i : answers)
   {
-    std::cout << i << std::endl;
     product *= i;
   }
 
