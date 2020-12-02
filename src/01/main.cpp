@@ -28,7 +28,7 @@ std::vector<int> FindNumbersWhichAddTo(
   unsigned const count,             // How many numbers are we looking for?
   std::vector<int> const numbers)   // List of numbers
 {
-  if (count > 2)
+  if (count > 1)
   {
     for (int const i : numbers)
     {
@@ -45,20 +45,11 @@ std::vector<int> FindNumbersWhichAddTo(
   }
   else
   {
-    std::set<int> checked;
-
     for (int const i : numbers)
     {
-      int const required = target - i;
-
-      if (checked.find(required) == checked.end())
+      if (i ==  target)
       {
-        checked.insert(i);
-      }
-      else
-      {
-        std::vector<int> answer = {i, required};
-        return answer;
+        return {i};
       }
     }
   }
