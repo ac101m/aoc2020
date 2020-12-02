@@ -1,5 +1,6 @@
 #include "loadlines.hpp"
 #include "stringutil.hpp"
+#include "timescope.hpp"
 
 #include "docopt/docopt.h"
 
@@ -125,11 +126,15 @@ int main(int argc, char **argv)
 
   int count = 0;
 
-  for (auto const line : lines)
   {
-    if (CheckLine(line, mode))
+    TimeScope t("Computation duration");
+
+    for (auto const line : lines)
     {
-      count++;
+      if (CheckLine(line, mode))
+      {
+        count++;
+      }
     }
   }
 

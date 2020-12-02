@@ -1,4 +1,5 @@
 #include "loadints.hpp"
+#include "timescope.hpp"
 
 #include "docopt/docopt.h"
 
@@ -68,7 +69,12 @@ int main(int argc, char **argv)
   int const target = args["--target"].asLong();
   int const count = args["--count"].asLong();
 
-  std::vector<int> const answers = FindNumbersWhichAddTo(target, count, numbers);
+  std::vector<int> answers;
+
+  {
+    TimeScope t("Computation duration");
+    answers = FindNumbersWhichAddTo(target, count, numbers);
+  }
 
   if (answers.size() != count)
   {
