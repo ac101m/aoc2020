@@ -23,40 +23,73 @@ Options:
 )";
 
 
+int Min(std::vector<int> const numbers)
+{
+  int min = numbers.at(0);
+
+  for (int const i : numbers)
+  {
+    if (i < min)
+    {
+      min = i;
+    }
+  }
+
+  return min;
+}
+
 
 std::vector<int> FindNumbersWhichAddTo(
-  unsigned const target,            // Sum that we want to reach
-  unsigned const count,             // How many numbers are we looking for?
-  std::vector<int> const numbers)   // List of numbers
+  int const target,                 // Sum that we want to reach
+  int const count,                  // How many numbers are we looking for?
+  std::vector<int> const numbers,   // Array of numbers
+  int const min,                    // Minimum value in numbers array
+  int const i = 0)                  // Dimensions of loop "1 - up" from this one
 {
   if (count > 1)
   {
-    for (int const i : numbers)
+    for (int j = i; j < numbers.size(); j++)
     {
-      int const required = target - i;
+      int const number = numbers.at(j);
 
-      std::vector<int> answer = FindNumbersWhichAddTo(required, count - 1, numbers);
+      int const required = target - number;
 
-      if (answer.size() != 0)
+      if (required >= (count - 1) * min)
       {
-        answer.push_back(i);
-        return answer;
+        std::vector<int> answer = FindNumbersWhichAddTo(required, count - 1, numbers, j, min);
+
+        if (answer.size() != 0)
+        {
+          answer.push_back(number);
+          return answer;
+        }
       }
     }
   }
   else
   {
-    for (int const i : numbers)
+    for (int j = i; j < numbers.size(); j++)
     {
-      if (i ==  target)
+      int const number = numbers.at(j);
+
+      if (number == target)
       {
-        return {i};
+        return {number};
       }
     }
   }
 
   // Oh no!
-  return std::vector<int>();
+  return {};
+}
+
+
+std::vector<int> FindNumbersWhichAddTo(
+  int const target,                 // Sum that we want to reach
+  int const count,                  // How many numbers are we looking for?
+  std::vector<int> const numbers)   // Array of numbers
+{
+  return FindNumbersWhichAddTo(target, count, numbers, Min(numbers));
 }
 
 
@@ -65,7 +98,7 @@ int main(int argc, char **argv)
   std::map<std::string, docopt::value> args =
     docopt::docopt(USAGE, {argv + 1, argv + argc}, true);
 
-  std::vector<int> const numbers = LoadIntsFromFile(args["<path>"].asString());
+  std::vector<int> numbers = LoadIntsFromFile(args["<path>"].asString());
   int const target = args["--target"].asLong();
   int const count = args["--count"].asLong();
 
@@ -86,6 +119,7 @@ int main(int argc, char **argv)
 
   for (int const i : answers)
   {
+    std::cout << i << std::endl;
     product *= i;
   }
 
