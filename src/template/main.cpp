@@ -1,6 +1,9 @@
 #include "docopt/docopt.h"
 
 
+using namespace std;
+
+
 static const char USAGE[] =
 R"([TODO - DESCRIPTION]
 
