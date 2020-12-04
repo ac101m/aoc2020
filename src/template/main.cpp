@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 {
   auto args = docopt::docopt(USAGE, {argv + 1, argv + argc}, true);
 
-  std::string const path = args["<path>"].asString();
+  string const path = args["<path>"].asString();
 
   // TODO - Solve the problem!
 
