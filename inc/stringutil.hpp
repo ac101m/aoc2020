@@ -37,4 +37,20 @@ int StringToInt(std::string const str)
 }
 
 
+std::vector<std::string> Split(std::string const str, char const delim)
+{
+  std::stringstream ss(str);
+  std::vector<std::string> tokens;
+
+  std::string token;
+
+  while (std::getline(ss, token, delim))
+  {
+    tokens.push_back(token);
+  }
+
+  return tokens;
+}
+
+
 #endif // STRINGUTIL_INCLUDED
