@@ -103,7 +103,7 @@ instruction_definitions = {
         "description": "Move a 16 bit immediate into the high bytes of a register."
     },
     "MOV": {
-        "4": 0x04,
+        "id": 0x04,
         "format": "op reg nothing reg",
         "relative_immediates": False,
         "description": "Copy the contents of one register to another."
