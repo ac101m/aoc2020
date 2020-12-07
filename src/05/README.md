@@ -8,7 +8,7 @@ Use the included python program to create a ROM image for the CPU (e.g. part1.s)
 Oh, that reminds me, you may need to `python3 -m pip install docopt`.
 
 ## 3 - Encode the problem input to use in the ram
-For this you need to use ./filetorom.py. It also has a handy help message. You can use this on the included (or your own) problem inputs.
+For this you need to use `./filetorom.py`. It also has a handy help message. You can use this on the included (or your own) problem inputs.
 
 ## 4 - Load program and ROM into the CPU
 In logisim, right click on the memory labeled "random access memory" and select "load image", then navigate to the problem input file you generated in the previous step. Then load the program into the ROM named "program memory" (Stored program concept? What's that?).
