@@ -1594,7 +1594,9 @@
       <a name="size" val="30"/>
       <a name="inputs" val="2"/>
     </comp>
-    <comp lib="0" loc="(830,70)" name="Constant"/>
+    <comp lib="0" loc="(830,70)" name="Constant">
+      <a name="value" val="0x0"/>
+    </comp>
     <comp lib="0" loc="(1110,800)" name="Tunnel">
       <a name="facing" val="east"/>
       <a name="width" val="32"/>
@@ -2086,6 +2088,9 @@
     <comp lib="0" loc="(830,850)" name="Constant">
       <a name="value" val="0x0"/>
     </comp>
+    <comp lib="6" loc="(1907,709)" name="Text">
+      <a name="text" val="Random access memory"/>
+    </comp>
     <comp lib="0" loc="(830,370)" name="Constant">
       <a name="value" val="0x0"/>
     </comp>
@@ -2405,7 +2410,9 @@
       <a name="facing" val="west"/>
       <a name="radix" val="16"/>
     </comp>
-    <comp lib="0" loc="(830,110)" name="Constant"/>
+    <comp lib="0" loc="(830,110)" name="Constant">
+      <a name="value" val="0x0"/>
+    </comp>
     <comp lib="0" loc="(1510,410)" name="Tunnel">
       <a name="facing" val="north"/>
       <a name="label" val="CK"/>
@@ -2815,7 +2822,9 @@ cfa00001 bfa00001 afa00001 9fa00001 8fa00001 7fa00001 6fa00001 5fa00000
       <a name="width" val="8"/>
       <a name="label" val="INSTR_B"/>
     </comp>
-    <comp lib="0" loc="(830,130)" name="Constant"/>
+    <comp lib="0" loc="(830,130)" name="Constant">
+      <a name="value" val="0x0"/>
+    </comp>
     <comp lib="0" loc="(1680,1320)" name="Probe">
       <a name="facing" val="west"/>
       <a name="radix" val="16"/>
@@ -2925,7 +2934,9 @@ cfa00001 bfa00001 afa00001 9fa00001 8fa00001 7fa00001 6fa00001 5fa00000
       <a name="size" val="30"/>
       <a name="inputs" val="2"/>
     </comp>
-    <comp lib="0" loc="(830,510)" name="Constant"/>
+    <comp lib="0" loc="(830,510)" name="Constant">
+      <a name="value" val="0x0"/>
+    </comp>
     <comp lib="1" loc="(1480,830)" name="NOT Gate">
       <a name="facing" val="west"/>
       <a name="size" val="20"/>
@@ -2936,7 +2947,9 @@ cfa00001 bfa00001 afa00001 9fa00001 8fa00001 7fa00001 6fa00001 5fa00000
     <comp lib="0" loc="(2320,920)" name="Pull Resistor">
       <a name="facing" val="north"/>
     </comp>
-    <comp lib="0" loc="(830,550)" name="Constant"/>
+    <comp lib="0" loc="(830,550)" name="Constant">
+      <a name="value" val="0x0"/>
+    </comp>
     <comp lib="0" loc="(1080,390)" name="Probe">
       <a name="facing" val="west"/>
       <a name="radix" val="16"/>
