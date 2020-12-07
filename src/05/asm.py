@@ -56,11 +56,11 @@ instruction_formats = {
         ]
     },
     "op reg reg nothing": {
-        "fields": {
+        "fields": [
             ("OPCODE", 0, 7),
             ("REG_ADDR", 12, 15),
             ("REG_ADDR", 20, 23)
-        }
+        ]
     },
     "op 24bimm": {
         "fields": [
@@ -69,10 +69,10 @@ instruction_formats = {
         ]
     },
     "op nothing reg nothing": {
-        "fields": {
+        "fields": [
             ("OPCODE", 0, 7),
             ("REG_ADDR", 20, 23)
-        }
+        ]
     }
 }
 
