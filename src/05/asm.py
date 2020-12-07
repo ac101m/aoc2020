@@ -167,8 +167,18 @@ instruction_definitions = {
         "relative_immediates": True,
         "description": "PC relative jump based on sign extended 24 bit immediate if zero flag is not set."
     },
-    "JMPLZ": None,
-    "JMPGZ": None,
+    "JMPLZ": {
+        "id": 0x19,
+        "format": "op 24bimm",
+        "relative_immediates": True,
+        "description": "PC relative jump based on sign extended 24 bit immediate if greater than zero flag is set."
+    },
+    "JMPGZ": {
+        "id": 0x19,
+        "format": "op 24bimm",
+        "relative_immediates": True,
+        "description": "PC relative jump based on sign extended 24 bit immediate if greater than zero flag is set."
+    },
     "JMPC": None,
     "JMPR": {
         "id": None,
