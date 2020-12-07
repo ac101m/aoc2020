@@ -11,7 +11,7 @@ Oh, that reminds me, you may need to `python3 -m pip install docopt`.
 For this you need to use `./filetorom.py`. It also has a handy help message. You can use this on the included (or your own) problem inputs.
 
 ## 4 - Load program and ROM into the CPU
-In logisim, right click on the memory labeled "random access memory" and select "load image", then navigate to the problem input file you generated in the previous step. Then load the program into the ROM named "program memory" (Stored program concept? What's that?).
+In logisim, right click on the memory labeled "random access memory" and select "load image", then navigate to the problem input file you generated in step 3. Next, right click the memory labeled "program memory" and load the program you assembled in step 1 (Stored program concept? What's that?).
 
 ## 5 - Run the simulation
 Here are some useful controls for logisim:
