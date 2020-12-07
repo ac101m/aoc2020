@@ -18,7 +18,7 @@ Here are some useful controls for logisim:
 - `CNTRL + k` enable/disable clock, use this to start the simulation
 - `CNTRL + r` reset system (warning! this will clear the RAM, so you will have to load it again as per step 4)
 
-To speed things up, click simulate -> tick frequency and select the highest one.
+To speed things up, click simulate -> tick frequency and select the highest one. Even at the highest speed, it will take a few minutes to run.
 
 For puzzle 1 you can see the progress of the computation in registers r0-r2:
 - r0 = current line output
