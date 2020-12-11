@@ -23,6 +23,13 @@ inline std::vector<int> LoadIntsFromStream(std::istream& is)
 inline std::vector<int> LoadIntsFromFile(std::string const path)
 {
   std::ifstream ifs(path);
+
+  if (!ifs)
+  {
+    std::cerr << "No such file '" << path << "'" << std::endl;
+    exit(1);
+  }
+
   return LoadIntsFromStream(ifs);
 }
 

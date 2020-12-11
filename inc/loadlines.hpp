@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <iostream>
 
 
 inline std::vector<std::string> LoadLinesFromStream(std::istream& is)
@@ -23,6 +24,13 @@ inline std::vector<std::string> LoadLinesFromStream(std::istream& is)
 inline std::vector<std::string> LoadLinesFromFile(std::string const path)
 {
   std::ifstream ifs(path);
+
+  if (!ifs)
+  {
+    std::cerr << "No such file '" << path << "'" << std::endl;
+    exit(1);
+  }
+
   return LoadLinesFromStream(ifs);
 }
 
