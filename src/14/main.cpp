@@ -152,15 +152,6 @@ public:
     for (auto const& instruction : program)
     {
       Execute(instruction);
-
-      cout << "Set mask: " << mask_set << endl;
-      cout << "Clear mask: " << mask_clear << endl;
-
-      if (instruction.opcode == MEM)
-      {
-        cout << "Mem address: " << instruction.mem_address << endl;
-        cout << "Mem value: " << mem.at(instruction.mem_address) << endl;
-      }
     }
   }
 
