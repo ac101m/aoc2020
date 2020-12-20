@@ -1,7 +1,6 @@
 #include "docopt/docopt.h"
 #include "stringutil.hpp"
 #include "loadlines.hpp"
-#include "intutil.hpp"
 
 #include <string>
 #include <vector>
