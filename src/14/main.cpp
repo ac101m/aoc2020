@@ -1,6 +1,7 @@
 #include "docopt/docopt.h"
 #include "stringutil.hpp"
 #include "loadlines.hpp"
+#include "intutil.hpp"
 
 #include <string>
 #include <vector>
@@ -12,7 +13,11 @@ using namespace std;
 
 
 static const char USAGE[] =
-R"(Docking decoder emulator v1.0
+R"(Docking decoder emulator v1.1
+
+Supported decoder chip versions:
+ - 1 (version with value masking)
+ - 2 (version with address masking)
 
 Usage:
   a.out [options] <path>
@@ -20,6 +25,7 @@ Usage:
 
 Options:
   -h --help   Print this help message.
+  -v --version <version>  Version of the decoder chip to emulate. [default: 1]
 )";
 
 
@@ -27,6 +33,12 @@ enum Opcode {
   NOP,
   MASK,
   MEM
+};
+
+
+enum Version {
+  V_01,
+  V_02
 };
 
 
@@ -118,41 +130,19 @@ typedef vector<Instruction> Program;
 class Executor
 {
 private:
+  unsigned largest_floating_bit_count = 0;
+
   uint64_t mask_set = 0;
   uint64_t mask_clear = 0;
+
+  uint64_t address_mask = 0;
 
   map<uint64_t, uint64_t> mem;
 
 public:
-  void Execute(Instruction const instr)
+  Executor (unsigned const address_space_size)
   {
-    switch (instr.opcode)
-    {
-      case MASK:
-        mask_set = instr.mask_set;
-        mask_clear = instr.mask_clear;
-        break;
-
-      case MEM:
-        Write((instr.mem_value | mask_set) & ~mask_clear, instr.mem_address);
-        break;
-
-      case NOP:
-        cerr << "Unexepcted NOP in program." << endl;
-        exit(1);
-
-      default:
-        cerr << "Unrecognised opcode in program." << endl;
-        exit(1);
-    }
-  }
-
-  void Execute(Program const program)
-  {
-    for (auto const& instruction : program)
-    {
-      Execute(instruction);
-    }
+    address_mask = ((uint64_t)0x01 << address_space_size) - 1;
   }
 
   uint64_t Read(uint64_t const address) const
@@ -165,9 +155,26 @@ public:
     return 0;
   }
 
-  void Write(uint64_t const value, uint64_t const address)
+  void Write(uint64_t const value, uint64_t address, uint64_t floating_mask = 0)
   {
-    mem[address] = value;
+    address &= address_mask;
+    floating_mask &= address_mask;
+
+    if (floating_mask != 0)
+    {
+      uint64_t const new_floating_mask = floating_mask & (floating_mask - 1);
+      uint64_t const floating_lsb_mask = new_floating_mask ^ floating_mask;
+
+      uint64_t const addr_clear = address & ~floating_lsb_mask;
+      uint64_t const addr_set = address | floating_lsb_mask;
+
+      Write(value, addr_clear, new_floating_mask);
+      Write(value, addr_set, new_floating_mask);
+    }
+    else
+    {
+      mem[address] = value;
+    }
   }
 
   uint64_t MemoryChecksum() const
@@ -180,6 +187,50 @@ public:
     }
 
     return sum;
+  }
+
+  void Execute(Instruction const instr, Version const version = V_01)
+  {
+    switch (instr.opcode)
+    {
+      case MASK:
+        mask_set = instr.mask_set;
+        mask_clear = instr.mask_clear;
+        break;
+
+      case MEM:
+        switch (version)
+        {
+          case V_01:
+            Write((instr.mem_value | mask_set) & ~mask_clear, instr.mem_address);
+            break;
+
+          case V_02:
+            Write(instr.mem_value, instr.mem_address | mask_set, ~(mask_clear | mask_set));
+            break;
+
+          default:
+            cout << "Invalid version code." << endl;
+            exit(1);
+        }
+        break;
+
+      case NOP:
+        cerr << "Unexepcted NOP in program." << endl;
+        exit(1);
+
+      default:
+        cerr << "Unrecognised opcode in program." << endl;
+        exit(1);
+    }
+  }
+
+  void Execute(Program const program, Version const version = V_01)
+  {
+    for (auto const& instruction : program)
+    {
+      Execute(instruction, version);
+    }
   }
 };
 
@@ -202,11 +253,24 @@ int main(int argc, char **argv)
   auto args = docopt::docopt(USAGE, {argv + 1, argv + argc}, true);
 
   string const path = args["<path>"].asString();
+  string const version = args["--version"].asString();
 
   Program const program = LoadProgram(path);
+  Executor executor(36);
 
-  Executor executor;
-  executor.Execute(program);
+  if (version == "1")
+  {
+    executor.Execute(program, V_01);
+  }
+  else if (version == "2")
+  {
+    executor.Execute(program, V_02);
+  }
+  else
+  {
+    cerr << version << " is not a valid decoder chip version!" << endl;
+    exit(1);
+  }
 
   cout << executor.MemoryChecksum() << endl;
 
