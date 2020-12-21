@@ -239,6 +239,7 @@ int main(int argc, char **argv)
 
   while (valid_field_mappings.size() > 0)
   {
+    /*
     for (auto const [name, indices] : valid_field_mappings)
     {
       cout << name << ": ";
@@ -250,6 +251,7 @@ int main(int argc, char **argv)
 
       cout << endl;
     }
+    */
 
     bool assignment_made = false;
 
@@ -260,7 +262,7 @@ int main(int argc, char **argv)
         int const i = *valid_indices.begin();
         my_ticket_fields[name] = my_ticket.field_values.at(i);
 
-        cout << "ticket['" << name << "'] = " << my_ticket.field_values.at(i) << " (index: " << i << ")" << endl << endl;
+        //cout << "ticket['" << name << "'] = " << my_ticket.field_values.at(i) << " (index: " << i << ")" << endl << endl;
 
         valid_field_mappings.erase(name);
 
