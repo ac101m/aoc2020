@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <set>
 
 
 using namespace std;
@@ -209,6 +210,91 @@ int main(int argc, char **argv)
   cout << "Total tickets: " << nearby_tickets.size() << endl;
   cout << "Valid tickets: " << valid_tickets.size() << endl;
   cout << "Invalid field checksum: " << checksum << endl;
+
+  map<string, set<int>> valid_field_mappings;
+
+  for (unsigned i = 0; i < my_ticket.field_values.size(); i++)
+  {
+    for (auto const [name, ranges] : field_constraints)
+    {
+      bool match = true;
+
+      for (Ticket const ticket : valid_tickets)
+      {
+        if (!RangesContain(ranges, ticket.field_values.at(i)))
+        {
+          match = false;
+          break;
+        }
+      }
+
+      if (match)
+      {
+        valid_field_mappings[name].insert(i);
+      }
+    }
+  }
+
+  map<string, int> my_ticket_fields;
+
+  while (valid_field_mappings.size() > 0)
+  {
+    for (auto const [name, indices] : valid_field_mappings)
+    {
+      cout << name << ": ";
+
+      for (auto const i : indices)
+      {
+        cout << i << ", ";
+      }
+
+      cout << endl;
+    }
+
+    bool assignment_made = false;
+
+    for (auto const [name, valid_indices] : valid_field_mappings)
+    {
+      if (valid_indices.size() == 1)
+      {
+        int const i = *valid_indices.begin();
+        my_ticket_fields[name] = my_ticket.field_values.at(i);
+
+        cout << "ticket['" << name << "'] = " << my_ticket.field_values.at(i) << " (index: " << i << ")" << endl << endl;
+
+        valid_field_mappings.erase(name);
+
+        for (auto& [name, valid_indices] : valid_field_mappings)
+        {
+          valid_indices.erase(i);
+        }
+
+        assignment_made = true;
+        break;
+      }
+    }
+
+    if (!assignment_made)
+    {
+      break;
+    }
+  }
+
+  cout << "My ticket:" << endl;
+
+  uint64_t departure_checksum = 1;
+
+  for (auto const [field_name, field_value] : my_ticket_fields)
+  {
+    cout << "\t" << field_name << ": " << field_value << endl;
+
+    if (field_name.find("departure") == 0)
+    {
+      departure_checksum *= field_value;
+    }
+  }
+
+  cout << "Departure checksum: " << departure_checksum << endl;
 
   return 0;
 }
