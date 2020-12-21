@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <map>
 
 
 using namespace std;
@@ -31,7 +32,7 @@ int main(int argc, char **argv)
   int const target_turn = args["--turn"].asLong();
 
   vector<int> sequence, starting_numbers;
-  map<int, vector<int>> occurrence_map;
+  unordered_map<int, vector<int>> occurrence_map;
 
   vector<string> const lines = LoadLinesFromFile(path);
 
